@@ -1,3 +1,11 @@
+import { ScrollView as DefaultScrollView, ScrollViewProps } from 'react-native';
+export type ThemedScrollViewProps = ThemeProps & ScrollViewProps;
+
+export function ScrollView(props: ThemedScrollViewProps) {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+  return <DefaultScrollView style={[{ backgroundColor }, style]} {...otherProps} />;
+}
 export type TodoProps = {
   subject: string;
   details?: string;
