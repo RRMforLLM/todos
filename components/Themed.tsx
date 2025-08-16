@@ -15,6 +15,7 @@ export function Input(props: InputProps) {
   const theme = useColorScheme() ?? 'light';
   const bgColor = backgroundColor || useThemeColor({ light: lightColor, dark: darkColor }, 'background');
   const txtColor = textColor || Colors[theme].text;
+  let placeholderColor = Colors[theme].fadedText;
 
   return (
     <RNTextInput
@@ -29,7 +30,7 @@ export function Input(props: InputProps) {
         },
         style,
       ]}
-      placeholderTextColor={Colors[theme].text + '99'}
+      placeholderTextColor={placeholderColor}
       {...otherProps}
     />
   );
@@ -43,7 +44,14 @@ export function Button(props: ButtonProps) {
   const { title, style, lightColor, darkColor, textColor, backgroundColor, ...otherProps } = props;
   const theme = useColorScheme() ?? 'light';
   const bgColor = backgroundColor || useThemeColor({ light: lightColor, dark: darkColor }, 'tint');
-  const txtColor = textColor || Colors[theme].text;
+  let txtColor = textColor;
+  if (!txtColor) {
+    if (bgColor === Colors[theme].tint) {
+      txtColor = Colors[theme].background;
+    } else {
+      txtColor = Colors[theme].text;
+    }
+  }
 
   return (
     <TouchableOpacity
@@ -93,4 +101,3 @@ export function View(props: ViewProps) {
 
   return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
 }
-

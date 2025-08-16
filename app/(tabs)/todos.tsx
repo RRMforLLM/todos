@@ -72,6 +72,16 @@ export default function TabOneScreen() {
   if (todos.length === 0) {
     return (
       <View style={styles.container}>
+        <View style={styles.form}>
+          <Text style={styles.text}>Subject</Text>
+          <Input style={styles.input} placeholder="Todo subject" value={todoSubject} onChangeText={setTodoSubject} />
+          <Text style={styles.text}>Details</Text>
+          <Input style={styles.input} placeholder="Todo details" value={todoDetails} onChangeText={setTodoDetails} />
+          <Text style={styles.text}>Deadline</Text>
+          <Input style={styles.input} placeholder="Todo deadline" value={todoDeadline} onChangeText={setTodoDeadline} />
+          <Button style={styles.button} title="Add" onPress={addTodo} />
+        </View>
+        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
         <Text style={styles.title}>No todos</Text>
       </View>
     );
@@ -90,7 +100,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    paddingVertical: 16,
+  },
+  form: {
+    width: '80%',
   },
   title: {
     fontSize: 20,
@@ -101,4 +115,14 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
+  text: {
+    textAlign: 'left',
+    width: '80%',
+    marginBottom: 4,
+  },
+  input: {
+    marginBottom: 12,
+  },
+  button: {
+  }
 });
