@@ -51,7 +51,6 @@ export default function TabOneScreen() {
   const doTodo = async (id: number) => {
     try {
       await insertDone({ todo: id });
-      // Refresh todos and dones after marking as done
       const updatedTodos = await getTodos();
       setTodos(updatedTodos);
       const updatedDones = await getDones();
@@ -64,6 +63,8 @@ export default function TabOneScreen() {
   const removeTodo = async (id: number) => {
     try {
       await deleteTodo({ id: id });
+      const updatedTodos = await getTodos();
+      setTodos(updatedTodos);
     } catch(error) {
       console.error('Error deleting todo:', error);
     }
@@ -91,7 +92,6 @@ export default function TabOneScreen() {
           <Button title="ADD" onPress={addTodo} />
         </View>
         <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-        <Text style={styles.title}>No todos</Text>
       </View>
     );
   }
@@ -125,7 +125,8 @@ export default function TabOneScreen() {
                   subject={todo.subject}
                   details={todo.details}
                   deadline={todo.deadline}
-                  onLongPress={() => doTodo(todo.id)}
+                  onPress={() => doTodo(todo.id)}
+                  onLongPress={() => removeTodo(todo.id)}
                 />
               ));
           })()}
