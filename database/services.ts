@@ -15,10 +15,27 @@ export const getTodos = async () => {
 
 export const getDones = async () => {
   const database = await db;
-  const query = 'SELECT * FROM DONES';
+  const query = `
+    SELECT 
+      DONES.id as doneId,
+      TODOS.id as todoId,
+      TODOS.subject,
+      TODOS.details,
+      TODOS.deadline
+    FROM DONES
+    JOIN TODOS ON DONES.todo = TODOS.id
+  `;
   try {
     const result = await database.getAllAsync(query);
-    return result;
+    return result.map((row: any) => ({
+      id: row.doneId,
+      todo: {
+        id: row.todoId,
+        subject: row.subject,
+        details: row.details,
+        deadline: row.deadline,
+      }
+    }));
   } catch (error) {
     console.error('Error fetching dones:', error);
     throw error;
