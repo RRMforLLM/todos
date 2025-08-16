@@ -1,16 +1,65 @@
 import { StyleSheet } from 'react-native';
+import { useState, useEffect } from 'react';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
+import { initDatabase } from '@/database/migrations'
+import { getDones, deleteDone, deleteTodo } from '@/database/services'
 
 export default function TabTwoScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
-    </View>
-  );
+  // CONSTANTS
+  const [dones, setDones] = useState<unknown[] | null>(null);
+
+  // EFFECTS
+  useEffect(() => {
+    const setup = async () => {
+      await initDatabase();
+      const fetchedDones = await getDones();
+      setDones(fetchedDones);
+    };
+    setup();
+  }, []);
+
+  // FUNCTIONS
+  const removeDone = async (id: number) => {
+    try {
+      await deleteDone({ id: id });
+    } catch(error) {
+      console.error('Error undoing done:', error);
+    }
+  };
+
+  const removeTodo = async (id: number) => {
+    try {
+      await deleteTodo({ id: id });
+    } catch(error) {
+      console.error('Error deleting todo:', error);
+    }
+  };
+
+  // RENDERING
+  if (dones === null) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Loading...</Text>
+      </View>
+    );
+  }
+
+  if (dones.length === 0) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>No dones</Text>
+      </View>
+    );
+  }
+
+  if (dones.length > 0) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Dones</Text>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
