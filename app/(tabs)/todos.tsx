@@ -111,7 +111,6 @@ export default function TabOneScreen() {
             return (todos || [])
               .filter((todo: any) => !doneIds.has(todo.id))
               .sort((a: any, b: any) => {
-                // Sort by deadline (earliest first)
                 if (!a.deadline) return 1;
                 if (!b.deadline) return -1;
                 return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
