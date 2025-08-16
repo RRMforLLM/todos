@@ -106,15 +106,26 @@ export default function TabOneScreen() {
         </View>
         <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
         <View style={styles.subcontainer}>
-          {todos.map((todo: any) => (
-            <Todo
-              key={todo.id}
-              subject={todo.subject}
-              details={todo.details}
-              deadline={todo.deadline}
-              onLongPress={() => doTodo(todo.id)}
-            />
-          ))}
+          {(() => {
+            const doneIds = new Set((dones || []).map((done: any) => done.todo.id));
+            return (todos || [])
+              .filter((todo: any) => !doneIds.has(todo.id))
+              .sort((a: any, b: any) => {
+                // Sort by deadline (earliest first)
+                if (!a.deadline) return 1;
+                if (!b.deadline) return -1;
+                return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
+              })
+              .map((todo: any) => (
+                <Todo
+                  key={todo.id}
+                  subject={todo.subject}
+                  details={todo.details}
+                  deadline={todo.deadline}
+                  onLongPress={() => doTodo(todo.id)}
+                />
+              ));
+          })()}
         </View>
       </View>
     );
