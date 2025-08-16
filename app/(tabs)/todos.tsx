@@ -1,5 +1,7 @@
+import React from 'react';
 import { StyleSheet } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { Text, ScrollView, View, Button, Input, Todo } from '@/components/Themed';
 import { initDatabase } from '@/database/migrations'
@@ -14,16 +16,18 @@ export default function TabOneScreen() {
   const [todoDeadline, setTodoDeadline] = useState(new Date().toISOString().split('T')[0]);
 
   // EFFECTS
-  useEffect(() => {
-    const setup = async () => {
-      await initDatabase();
-      const fetchedTodos = await getTodos();
-      setTodos(fetchedTodos);
-      const fetchedDones = await getDones();
-      setDones(fetchedDones);
-    };
-    setup();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      const setup = async () => {
+        await initDatabase();
+        const fetchedTodos = await getTodos();
+        setTodos(fetchedTodos);
+        const fetchedDones = await getDones();
+        setDones(fetchedDones);
+      };
+      setup();
+    }, [])
+  );
 
   // FUNCTIONS
   const addTodo = async () => {

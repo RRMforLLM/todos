@@ -1,5 +1,7 @@
+import React from 'react';
 import { StyleSheet } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { Text, View, Todo } from '@/components/Themed';
 import { initDatabase } from '@/database/migrations'
@@ -10,14 +12,16 @@ export default function TabTwoScreen() {
   const [dones, setDones] = useState<unknown[] | null>(null);
 
   // EFFECTS
-  useEffect(() => {
-    const setup = async () => {
-      await initDatabase();
-      const fetchedDones = await getDones();
-      setDones(fetchedDones);
-    };
-    setup();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      const setup = async () => {
+        await initDatabase();
+        const fetchedDones = await getDones();
+        setDones(fetchedDones);
+      };
+      setup();
+    }, [])
+  );
 
   // FUNCTIONS
   const removeDone = async (id: number) => {
