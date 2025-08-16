@@ -1,9 +1,31 @@
 import { StyleSheet } from 'react-native';
+import { useState, useEffect } from 'react';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
+import { initDatabase } from '@/database/migrations'
+import { getTodos, getDones } from '@/database/services'
 
 export default function TabOneScreen() {
+  // CONSTANTS
+  const [todos, setTodos] = useState<unknown[] | null>(null);
+  const [dones, setDones] = useState<unknown[] | null>(null);
+  const [todoSubject, setTodoSubject] = useState('');
+  const [todoDetails, setTodoDetails] = useState('');
+  const [todoDeadline, setTodoDeadline] = useState(new Date().toISOString().split('T')[0]);
+
+  // EFFECTS
+  useEffect(() => {
+    const setup = async () => {
+      await initDatabase();
+      const fetchedTodos = await getTodos();
+      setTodos(fetchedTodos);
+      const fetchedDones = await getDones();
+      setDones(fetchedDones);
+    };
+    setup();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab One</Text>

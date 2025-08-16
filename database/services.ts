@@ -1,9 +1,8 @@
 import db from '@/database/db';
 
-const database = await db;
-
 // FETCHING DATA
 export const getTodos = async () => {
+  const database = await db;
   const query = 'SELECT * FROM TODOS';
   try {
     const result = await database.getAllAsync(query);
@@ -15,6 +14,7 @@ export const getTodos = async () => {
 };
 
 export const getDones = async () => {
+  const database = await db;
   const query = 'SELECT * FROM DONES';
   try {
     const result = await database.getAllAsync(query);
@@ -35,6 +35,7 @@ export const insertTodo = async ({
   details: string | null;
   deadline: string;
 }): Promise<number> => {
+  const database = await db;
   const query = 'INSERT INTO TODOS (subject, details, deadline) VALUES (?, ?, ?)';
   try {
     const result = await database.runAsync(query, [subject, details, deadline]);
@@ -50,6 +51,7 @@ export const insertDone = async ({
 }: {
   todo: number;
 }): Promise<number> => {
+  const database = await db;
   const query = 'INSERT INTO DONES (todo) VALUES (?)';
   try {
     const result = await database.runAsync(query, [todo]);
@@ -66,6 +68,7 @@ export const deleteTodo = async ({
 }: {
   id: number;
 }): Promise<void> => {
+  const database = await db;
   const query = 'DELETE FROM TODOS WHERE id = ?';
   try {
     await database.runAsync(query, [id]);
@@ -80,6 +83,7 @@ export const deleteDone = async ({
 }: {
   id: number;
 }): Promise<void> => {
+  const database = await db;
   const query = 'DELETE FROM DONES WHERE id = ?';
   try {
     await database.runAsync(query, [id]);

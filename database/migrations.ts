@@ -1,9 +1,8 @@
 import db from '@/database/db';
 import { createTables } from '@/database/schema';
 
-const database = await db;
-
 export const initDatabase = async () => {
+  const database = await db;
   try {
     await database.withTransactionAsync(async () => {
       for (const query of createTables) {
