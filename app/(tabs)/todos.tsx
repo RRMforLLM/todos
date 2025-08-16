@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { useState, useEffect } from 'react';
 
-import { Text, View } from '@/components/Themed';
+import { Text, View, Button, Input } from '@/components/Themed';
 import { initDatabase } from '@/database/migrations'
 import { getTodos, getDones, insertTodo, insertDone, deleteTodo } from '@/database/services'
 

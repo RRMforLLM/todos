@@ -3,7 +3,57 @@
  * https://docs.expo.io/guides/color-schemes/
  */
 
-import { Text as DefaultText, View as DefaultView } from 'react-native';
+
+import { Text as DefaultText, View as DefaultView, TouchableOpacity, TouchableOpacityProps, Text as RNText, TextInput as RNTextInput, TextInputProps } from 'react-native';
+export type InputProps = ThemeProps & TextInputProps & {
+  textColor?: string;
+  backgroundColor?: string;
+};
+
+export function Input(props: InputProps) {
+  const { style, lightColor, darkColor, textColor, backgroundColor, ...otherProps } = props;
+  const theme = useColorScheme() ?? 'light';
+  const bgColor = backgroundColor || useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+  const txtColor = textColor || Colors[theme].text;
+
+  return (
+    <RNTextInput
+      style={[
+        {
+          backgroundColor: bgColor,
+          color: txtColor,
+          borderColor: Colors[theme].tint,
+          borderWidth: 1,
+          borderRadius: 6,
+          padding: 10,
+        },
+        style,
+      ]}
+      placeholderTextColor={Colors[theme].text + '99'}
+      {...otherProps}
+    />
+  );
+}
+export type ButtonProps = ThemeProps & TouchableOpacityProps & {
+  title: string;
+  textColor?: string;
+  backgroundColor?: string;
+};
+export function Button(props: ButtonProps) {
+  const { title, style, lightColor, darkColor, textColor, backgroundColor, ...otherProps } = props;
+  const theme = useColorScheme() ?? 'light';
+  const bgColor = backgroundColor || useThemeColor({ light: lightColor, dark: darkColor }, 'tint');
+  const txtColor = textColor || Colors[theme].text;
+
+  return (
+    <TouchableOpacity
+      style={[{ backgroundColor: bgColor, padding: 12, borderRadius: 6, alignItems: 'center' }, style]}
+      {...otherProps}
+    >
+      <RNText style={{ color: txtColor, fontWeight: 'bold' }}>{title}</RNText>
+    </TouchableOpacity>
+  );
+}
 
 import Colors from '@/constants/Colors';
 import { useColorScheme } from './useColorScheme';
@@ -43,3 +93,4 @@ export function View(props: ViewProps) {
 
   return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
 }
+
