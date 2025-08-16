@@ -1,3 +1,45 @@
+export type TodoProps = {
+  subject: string;
+  details?: string;
+  deadline?: string;
+  style?: any;
+  children?: React.ReactNode;
+  onPress?: () => void;
+  onLongPress?: () => void;
+};
+
+export function Todo({ subject, details, deadline, style, children, onPress, onLongPress }: TodoProps) {
+  const theme = useColorScheme() ?? 'light';
+  return (
+    <TouchableOpacity
+      activeOpacity={onPress || onLongPress ? 0.8 : 1}
+      onPress={onPress}
+      onLongPress={onLongPress}
+      style={[
+        {
+          backgroundColor: Colors[theme].background,
+          borderColor: Colors[theme].tint,
+          borderWidth: 1,
+          borderRadius: 8,
+          padding: 14,
+          marginBottom: 8,
+          width: '100%',
+          shadowColor: Colors[theme].tint,
+          shadowOpacity: 0.08,
+          shadowRadius: 4,
+          shadowOffset: { width: 0, height: 2 },
+        },
+        style,
+      ]}
+      disabled={!onPress && !onLongPress}
+    >
+      <Text style={{ fontWeight: 'bold', fontSize: 16, marginBottom: 4 }}>{subject}</Text>
+      {details ? <Text style={{ color: Colors[theme].fadedText, marginBottom: 2 }}>{details}</Text> : null}
+      {deadline ? <Text style={{ color: Colors[theme].tint, fontSize: 12 }}>Due: {deadline}</Text> : null}
+      {children}
+    </TouchableOpacity>
+  );
+}
 /**
  * Learn more about Light and Dark modes:
  * https://docs.expo.io/guides/color-schemes/
