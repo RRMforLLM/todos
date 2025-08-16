@@ -21,6 +21,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "versionCode": 7,
       "edgeToEdgeEnabled": true,
       "package": "com.rrmforllm.todos"
     },
