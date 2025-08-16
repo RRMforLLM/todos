@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { useState, useEffect } from 'react';
 
-import { Text, View, Button, Input } from '@/components/Themed';
+import { Text, View, Button, Input, Todo } from '@/components/Themed';
 import { initDatabase } from '@/database/migrations'
 import { getTodos, getDones, insertTodo, insertDone, deleteTodo } from '@/database/services'
 
@@ -47,6 +47,11 @@ export default function TabOneScreen() {
   const doTodo = async (id: number) => {
     try {
       await insertDone({ todo: id });
+      // Refresh todos and dones after marking as done
+      const updatedTodos = await getTodos();
+      setTodos(updatedTodos);
+      const updatedDones = await getDones();
+      setDones(updatedDones);
     } catch(error) {
       console.error('Error doing todo:', error);
     }
@@ -72,14 +77,14 @@ export default function TabOneScreen() {
   if (todos.length === 0) {
     return (
       <View style={styles.container}>
-        <View style={styles.form}>
+        <View style={styles.subcontainer}>
           <Text style={styles.text}>Subject</Text>
           <Input style={styles.input} placeholder="Todo subject" value={todoSubject} onChangeText={setTodoSubject} />
           <Text style={styles.text}>Details</Text>
           <Input style={styles.input} placeholder="Todo details" value={todoDetails} onChangeText={setTodoDetails} />
           <Text style={styles.text}>Deadline</Text>
           <Input style={styles.input} placeholder="Todo deadline" value={todoDeadline} onChangeText={setTodoDeadline} />
-          <Button style={styles.button} title="Add" onPress={addTodo} />
+          <Button title="ADD" onPress={addTodo} />
         </View>
         <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
         <Text style={styles.title}>No todos</Text>
@@ -90,7 +95,27 @@ export default function TabOneScreen() {
   if (todos.length > 0) {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Todos</Text>
+        <View style={styles.subcontainer}>
+          <Text style={styles.text}>Subject</Text>
+          <Input style={styles.input} placeholder="Todo subject" value={todoSubject} onChangeText={setTodoSubject} />
+          <Text style={styles.text}>Details</Text>
+          <Input style={styles.input} placeholder="Todo details" value={todoDetails} onChangeText={setTodoDetails} />
+          <Text style={styles.text}>Deadline</Text>
+          <Input style={styles.input} placeholder="Todo deadline" value={todoDeadline} onChangeText={setTodoDeadline} />
+          <Button title="ADD" onPress={addTodo} />
+        </View>
+        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+        <View style={styles.subcontainer}>
+          {todos.map((todo: any) => (
+            <Todo
+              key={todo.id}
+              subject={todo.subject}
+              details={todo.details}
+              deadline={todo.deadline}
+              onLongPress={() => doTodo(todo.id)}
+            />
+          ))}
+        </View>
       </View>
     );
   }
@@ -103,7 +128,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingVertical: 16,
   },
-  form: {
+  subcontainer: {
     width: '80%',
   },
   title: {
@@ -123,6 +148,4 @@ const styles = StyleSheet.create({
   input: {
     marginBottom: 12,
   },
-  button: {
-  }
 });
