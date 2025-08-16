@@ -3,9 +3,9 @@ import { StyleSheet } from 'react-native';
 import { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 
-import { Text, View, Todo } from '@/components/Themed';
+import { Text, ScrollView, View, Todo } from '@/components/Themed';
 import { initDatabase } from '@/database/migrations'
-import { getDones, deleteDone, deleteTodo } from '@/database/services'
+import { getDones, deleteDone } from '@/database/services'
 
 export default function TabTwoScreen() {
   // CONSTANTS
@@ -34,14 +34,6 @@ export default function TabTwoScreen() {
     }
   };
 
-  const removeTodo = async (id: number) => {
-    try {
-      await deleteTodo({ id: id });
-    } catch(error) {
-      console.error('Error deleting todo:', error);
-    }
-  };
-
   // RENDERING
   if (dones === null) {
     return (
@@ -60,7 +52,7 @@ export default function TabTwoScreen() {
 
   if (dones.length > 0) {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.scrollcontainer} contentContainerStyle={styles.contentContainer}>
         <View style={styles.subcontainer}>
           {dones.map((done: any) => (
             <Todo
@@ -72,7 +64,7 @@ export default function TabTwoScreen() {
             />
           ))}
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
