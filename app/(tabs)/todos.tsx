@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { useState, useEffect } from 'react';
 
-import { Text, View, Button, Input, Todo } from '@/components/Themed';
+import { Text, ScrollView, View, Button, Input, Todo } from '@/components/Themed';
 import { initDatabase } from '@/database/migrations'
 import { getTodos, getDones, insertTodo, insertDone, deleteTodo } from '@/database/services'
 
@@ -94,7 +94,7 @@ export default function TabOneScreen() {
 
   if (todos.length > 0) {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.scrollcontainer} contentContainerStyle={styles.contentContainer}>
         <View style={styles.subcontainer}>
           <Text style={styles.text}>Subject</Text>
           <Input style={styles.input} placeholder="Todo subject" value={todoSubject} onChangeText={setTodoSubject} />
@@ -126,7 +126,7 @@ export default function TabOneScreen() {
               ));
           })()}
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -134,6 +134,14 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingVertical: 16,
+  },
+  scrollcontainer: {
+    flex: 1,
+  },
+  contentContainer: {
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingVertical: 16,

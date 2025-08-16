@@ -81,6 +81,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingVertical: 16,
   },
+  scrollcontainer: {
+    flex:1,
+  },
+  contentContainer: {
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingVertical: 16,
+  },
   subcontainer: {
     width: '80%',
   },
