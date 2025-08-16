@@ -21,7 +21,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.rrmforllm.todos"
     },
     "web": {
       "bundler": "metro",
@@ -33,6 +34,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "7791802e-6cb2-47b1-85f2-20098f3deb59"
+      }
+    },
+    "owner": "rrmforllm"
   }
 }
