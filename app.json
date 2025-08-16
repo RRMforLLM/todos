@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "todos",
+    "name": "Todos",
     "slug": "todos",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -21,7 +21,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#111111"
       },
-      "versionCode": 11,
+      "versionCode": 12,
       "edgeToEdgeEnabled": true,
       "package": "com.rrmforllm.todos"
     },
